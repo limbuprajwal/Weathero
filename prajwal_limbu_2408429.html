@@ -1,0 +1,187 @@
+<!-- 
+Student Name: Prajwal Limbu
+Student ID: 2408429 -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Meta tags for character set and viewport -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weathero</title>
+
+    <!-- External stylesheets and fonts -->
+    <link rel="stylesheet" href="prajwal_limbu_2408429.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&family=Raleway&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,200&family=Poppins:wght@200&family=Raleway&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Topbar section -->
+      <section class="topbar">
+        <a href="#" class="logo">
+          <!-- Logo image -->
+
+          <img
+            src="https://github.com/prajwal069/weatherapp/blob/6a9b0f6bdfe553b2df4516605b6d06c98155290e/logo.png?raw=true"
+            width="auto"
+            height="50"
+          />
+        </a>
+        <!-- Search bar container -->
+        <div class="searchbar_cont">
+          <input
+            type="text"
+            name="searchbar"
+            id="searchbar"
+            placeholder="Search City"
+            onkeydown="searchCity(event)"
+          />
+        </div>
+      </section>
+
+      <main>
+        <!-- Upper container for weather information -->
+        <div class="upper_container">
+          <!-- Weather Now section -->
+          <div class="weather_now">
+            <h2 class="title">Now</h2>
+            <div class="weather_now_wrapper">
+              <!-- Temperature and weather icon -->
+              <p class="temperature" id="temperature">--°c</p>
+              <img
+                src=""
+                alt="Weather Icon"
+                width="80"
+                height="80"
+                class="weather_icon"
+                id="weatherIcon"
+              />
+            </div>
+            <!-- Weather status, date, and location -->
+            <p class="weather_status" id="weatherStatus">--</p>
+            <ul class="item_list">
+              <li class="item">
+                <span class="icons"
+                  ><i class="fa-regular fa-calendar"></i
+                ></span>
+                <p id="date">--</p>
+              </li>
+              <li class="item">
+                <span class="icons"
+                  ><i class="fa-solid fa-location-dot"></i
+                ></span>
+                <p id="location">--</p>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Today's Highlights section -->
+          <div class="card_highlights">
+            <h2 class="today_title">Today's Highlights</h2>
+            <div class="grid_card">
+              <!-- Air Quality Index card -->
+              <div class="card_one">
+                <h2 class="title_air">Wind Index</h2>
+                <div class="cardone_wrapper">
+                  <span><i class="fa-solid fa-wind fa-2xl"></i></span>
+                  <ul class="card1_list">
+                    <!-- Wind information -->
+                    <li class="card_item">
+                      <p class="label">Speed</p>
+                      <p class="title1" id="windSpeed">--</p>
+                    </li>
+                    <li class="card_item">
+                      <p class="label">Direction</p>
+                      <p class="title1" id="windDirection">--</p>
+                    </li>
+                    <li class="card_item">
+                      <p class="label">Gust</p>
+                      <p class="title1" id="windGust">--</p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Sunrise & Sunset card -->
+              <div class="card_two">
+                <h3 class="title-3">Sunrise & Sunset</h3>
+                <div class="card2_list">
+                  <!-- Sunrise information -->
+                  <div class="card2_item">
+                    <span><i class="fa-regular fa-sun fa-2xl"></i></span>
+                    <div>
+                      <p class="label">Sunrise</p>
+                      <p class="title1" id="sunrise">--</p>
+                    </div>
+                  </div>
+                  <!-- Sunset information -->
+                  <div class="card2_item">
+                    <span><i class="fa-regular fa-moon fa-2xl"></i></span>
+                    <div>
+                      <p class="label">Sunset</p>
+                      <p class="title1" id="sunset">--</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Humidity, Pressure, Visibility, and Feels Like cards -->
+              <div class="hightlight_cards">
+                <h3 class="title-3">Humidity</h3>
+                <div class="wrapper">
+                  <span><i class="fa-solid fa-droplet fa-2xl"></i></span>
+                  <p class="title1" id="humidity">--<sub>%</sub></p>
+                </div>
+              </div>
+              <div class="hightlight_cards">
+                <h3 class="title-3">Pressure</h3>
+                <div class="wrapper">
+                  <span><i class="fa-solid fa-water fa-2xl"></i></span>
+                  <p class="title1" id="pressure">--<sub>hPa</sub></p>
+                </div>
+              </div>
+              <div class="hightlight_cards">
+                <h3 class="title-3">Visibility</h3>
+                <div class="wrapper">
+                  <span><i class="fa-regular fa-eye fa-2xl"></i></span>
+                  <p class="title1" id="visibility">--<sub>km</sub></p>
+                </div>
+              </div>
+              <div class="hightlight_cards">
+                <h3 class="title-3">Feels Like</h3>
+                <div class="wrapper">
+                  <span
+                    ><i class="fa-solid fa-temperature-high fa-2xl"></i
+                  ></span>
+                  <p class="title1" id="feelsLike">--°<sup>c</sup></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <div class="pastWeatherContainer"></div>
+
+    <!-- Footer section -->
+    <footer>
+      <p>CopyRight © 2023 Prajwal Limbu_2408429. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript file -->
+    <script src="prajwal_limbu_2408429.js"></script>
+  </body>
+</html>
