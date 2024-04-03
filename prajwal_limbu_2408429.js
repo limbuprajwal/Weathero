@@ -1,6 +1,3 @@
-// Student Name: Prajwal Limbu
-// Student ID: 2408429
-
 let weatherData; //weatherData variable in the global scope
 
 //this function handles city search on keydown
