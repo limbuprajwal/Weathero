@@ -1,102 +1,189 @@
-let weatherData; //weatherData variable in the global scope
+const error = document.querySelector(".error");
+const group = document.querySelectorAll(".group");
+let city_name = document.getElementById("searchbar").value || "Haridwar";
 
-//this function handles city search on keydown
+function InsertWeatherData(weather) {
+  document.querySelector("#weatherStatus").innerHTML = weather.condition;
+  document.querySelector("#temperature").innerHTML =
+    Math.round(weather.temp) + "&deg";
+  document.querySelector("#date").innerHTML = weather.date;
+  document.querySelector("#location").innerHTML = weather.name;
+  document.querySelector("#pressure").innerHTML = weather.pressure + "Pa";
+  document.querySelector("#windSpeed").innerHTML = `${weather.windSpeed}m/s`;
+  document.querySelector("#humidity").innerHTML = `${weather.humidity}%`;
+  document.querySelector("#visibility").innerHTML =
+    weather.visibility + "km" || "--";
+  document.querySelector("#feelsLike").innerHTML =
+    weather.feelslike + "&deg" || "--";
+  document.querySelector("#windDirection").innerHTML =
+    weather.windDirection + "&deg" || "--";
+  document.querySelector("#windGust").innerHTML = weather.windGust || "--";
+  document.querySelector("#sunrise").innerHTML = weather.sunrise || "--";
+  document.querySelector("#sunset").innerHTML = weather.sunset || "--";
+  document.querySelector(
+    "#weatherIcon"
+  ).src = `https://openweathermap.org/img/w/${weather.icon}.png`;
+}
+
 function searchCity(event) {
   if (event.key === "Enter") {
-    const userInput = document.getElementById("searchbar").value;
-    //this is to call a function to update weather data based on user input
-    updateWeatherData(userInput);
+    searchWeather();
   }
 }
 
-// this function is to update weather data based on the city
-function updateWeatherData(city) {
-  const apiKey = "cae6201b6cd9ee700bf84977a25d1c63"; // my personal api key which i got from OpenWeatherApi
-  const weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-  //the url from where we retreive weatherData remains the same so we use constant variable declaration//
-  fetch(weatherApiUrl) //fetching weather api
-    .then((res) => res.json()) //retrives the data from array of the json file
-    .then((data) => {
-      weatherData = data;
-      const { lat, lon } = weatherData.coord; //taking co-ordinates from weather data
+async function searchWeather() {
+  const cityInput = document.querySelector("#searchbar");
+  const city = cityInput.value.trim(); // Use the entered city, not the default
 
-      //using latitude and longitude of the userinput city to fetch wind data
-      const windApiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`;
-      return fetch(windApiUrl);
-    })
-    .then((res) => res.json()) //retrives the data from array of the json file
-    .then((windData) => {
-      updateUI(windData);
-    })
-    .catch((error) => {
-      console.error("Error fetching data:", error.message); //gives error fetching wind data when there is error in with windapi
-    });
-}
-//updateUI updates the HTML elements with the received data from the api
-function updateUI(windData) {
-  // For temperature
-  document.getElementById(
-    "temperature"
-  ).innerHTML = `${weatherData.main.temp}°C`; //updates the temperature received from the api
-
-  //For weather description and icon
-  const weatherDescription = weatherData.weather[0].description; //weather status
-  const weatherIcon = weatherData.weather[0].icon; //weather description ko icon
-  document.getElementById("weatherStatus").innerHTML = weatherDescription; // updates weather status in the UI
-  document.getElementById(
-    "weatherIcon"
-  ).src = `https://openweathermap.org/img/w/${weatherIcon}.png`;
-
-  //For date and day
-  const currentDate = new Date();
-  document.getElementById("date").innerHTML = currentDate.toDateString();
-
-  //For location
-  document.getElementById("location").innerHTML = weatherData.name;
-
-  //For sunrise and sunset information
-  document.getElementById("sunrise").innerHTML = convertUnixTimestamp(
-    weatherData.sys.sunrise
-  );
-  document.getElementById("sunset").innerHTML = convertUnixTimestamp(
-    weatherData.sys.sunset
-  );
-
-  //For weather highlights
-  document.getElementById(
-    "humidity"
-  ).innerHTML = `${weatherData.main.humidity}%`;
-  document.getElementById(
-    "pressure"
-  ).innerHTML = `${weatherData.main.pressure}hPa`;
-  document.getElementById("visibility").innerHTML = `${
-    weatherData.visibility / 1000
-  }km`;
-  document.getElementById(
-    "feelsLike"
-  ).innerHTML = `${weatherData.main.feels_like}°C`;
-
-  ///For wind information
-  if (windData.wind) {
-    document.getElementById(
-      "windSpeed"
-    ).innerHTML = `${windData.wind.speed} m/s`;
-    document.getElementById(
-      "windDirection"
-    ).innerHTML = `${windData.wind.deg}°`;
-    document.getElementById("windGust").innerHTML = `${windData.wind.gust} m/s`;
+  if (city !== "") {
+    if (navigator.onLine) {
+      fetchData(city); // Use the entered city here as well
+    } else {
+      // If offline, fetch from local storage
+      const cachedWeatherData = localStorage.getItem(city);
+      if (cachedWeatherData) {
+        const weather = JSON.parse(cachedWeatherData);
+        InsertWeatherData(weather);
+      } else {
+        console.error("City data not available offline.");
+      }
+    }
   } else {
-    console.error("Wind data not available.");
+    console.error("City name is empty.");
+  }
+
+  cityInput.value = "";
+}
+
+async function fetchData(city_name) {
+  try {
+    const apiKey = "cae6201b6cd9ee700bf84977a25d1c63";
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${apiKey}&units=metric`;
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      error.classList.remove("hide");
+      group.forEach((node) => node.classList.add("hide"));
+    } else {
+      error.classList.add("hide");
+      group.forEach((node) => node.classList.remove("hide"));
+
+      const { main, wind, weather, visibility, sys } = await response.json();
+      console.log("Received Data:", { main, wind, weather, visibility, sys });
+
+      const currentDate = new Date();
+      const weekdays = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ];
+      const options = { year: "numeric", month: "short", day: "numeric" };
+
+      const weatherData = {
+        name: city_name,
+        day: weekdays[currentDate.getDay()],
+        date: currentDate.toLocaleDateString("en-US", options),
+        condition: weather[0].description,
+        icon: weather[0].icon,
+        temp: main.temp,
+        pressure: main.pressure,
+        windSpeed: wind.speed,
+        humidity: main.humidity,
+        visibility: visibility ? visibility / 1000 : undefined,
+        feelslike: main.feels_like,
+        windDirection: wind.deg,
+        windGust: wind.gust,
+        sunrise:
+          sys && sys.sunrise
+            ? new Date(sys.sunrise * 1000).toLocaleTimeString("en-US")
+            : undefined,
+        sunset:
+          sys && sys.sunset
+            ? new Date(sys.sunset * 1000).toLocaleTimeString("en-US")
+            : undefined,
+      };
+
+      InsertWeatherData(weatherData);
+
+      // Store weather data for the current city in local storage
+      const storedData = localStorage.getItem(city_name) || "[]";
+      const data1 = JSON.parse(storedData);
+      data1.unshift(weatherData); // Add new data to the beginning of the array
+      localStorage.setItem(city_name, JSON.stringify(data1));
+    }
+  } catch (error) {
+    console.error(error);
+    error.classList.remove("hide");
+    group.forEach((node) => node.classList.add("hide"));
+    alert(
+      "An error occurred while fetching weather data. Please try again later."
+    );
   }
 }
 
-//this function to converts Unix timestamp to formatted time (HH:mm)
-function convertUnixTimestamp(unixTimestamp) {
-  const date = new Date(unixTimestamp * 1000);
-  const hours = date.getHours().toString().padStart(2, "0");
-  const minutes = date.getMinutes().toString().padStart(2, "0");
-  return `${hours}:${minutes}`;
+// Fetch weather data for the default city
+fetchData(city_name);
+
+const cachedWeatherData = localStorage.getItem(city_name);
+if (cachedWeatherData) {
+  const weather = JSON.parse(cachedWeatherData);
+  InsertWeatherData(weather);
 }
 
-// Initial call to fetch data for the default city (Haridwar)
-updateWeatherData("Haridwar");
+const cityInput = document.querySelector("#searchbar");
+cityInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    searchWeather();
+  }
+});
+
+async function pastWeatherData() {
+  try {
+    let url2 = `http://prajwallimbuweatherapp.free.nf/main.php?city_name=${city_name}`;
+    document.querySelector("#title").innerText = city_name + " Past Weather";
+
+    let response2 = await fetch(url2);
+
+    if (!response2.ok) {
+      throw new Error(`HTTP error! status: ${response2.status}`);
+    } else {
+      let data2 = await response2.json();
+      let weekBoxHTML = "";
+      data2.reverse();
+      console.log(data2);
+      localStorage.setItem("pastData", JSON.stringify(data2));
+
+      for (let i = 0; i < data2.length; i++) {
+        const weather = data2[i];
+        const iconCode = data2[i].Weather_Icon;
+        const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@4x.png`;
+        weekBoxHTML += `
+                <div class="week-box">
+                    <div class ="past_weather_box">
+                        <div class="date">${weather.Day_and_Date}</div>
+                        <div class="past_weather_info">
+                            <span class="past_infos">${weather.Day_of_Week}</span>
+                            <span><img alt="${weather.description}icon" id="weather_icon" src="${iconUrl}" height="100"></span>
+                            <span class="past_infos">${weather.Temperature}°</span>
+                            <span class="past_infos">Humidity:${weather.Humidity}%</span>
+                            <span class="past_infos">Pressure:${weather.Pressure}Pa</span>
+                            <span class="past_infos">Wind Speed:${weather.Wind_Speed}m/s</span>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            `;
+      }
+      document.getElementById("weekContainer").innerHTML = weekBoxHTML;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+pastWeatherData();
+searchWeather();
+
