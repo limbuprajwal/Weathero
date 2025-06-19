@@ -69,7 +69,7 @@ body {
 .searchbar_cont input {
   outline: none;
   border: none;
-  padding: 0.5em;
+  padding: 1.5em;
   background: #1d1c1f;
   color: var(--title) font-familyvar(--primary_font-family);
   width: 400px;
@@ -100,10 +100,30 @@ body {
 }
 
 .today_title {
-  font-size: 1rem;
-  margin-block-end: 1px;
+  font-size: 2rem;
+  margin-block-end: 15px;
   font-weight: bold;
+
+}
+
+.title-3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--title);
+  margin-block-end: 2px;
+  margin-block-start: 0.83em;
   margin-top: -6px;
+  display: block;
+}
+
+.title-wind {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--title);
+  margin-block-end: 2px;
+  margin-block-start: 1rem;
+  margin-top: px;
+  display: block;
 }
 
 .title_air {
@@ -146,7 +166,7 @@ body {
 
 .card_highlights {
   width: 100%;
-  height: 380px;
+  height: 420px;
   padding: 36px;
   border-radius: 28px;
   display: grid;
@@ -164,7 +184,6 @@ ul {
 .grid_card {
   grid-template-columns: repeat(4, 1fr);
   display: grid;
-  gap: 20px;
 }
 
 .highlight_cards {
@@ -185,8 +204,9 @@ ul {
 
 .cardone_wrapper {
   display: flex;
-  padding: 0px 0px 0px 10px;
-  width: 379px;
+  justify-items: center;
+  align-items: center;
+  width: 100%;
   height: 100px;
 }
 
@@ -198,8 +218,10 @@ ul {
 .card_two {
   height: 200px;
   grid-column: span 2;
-  display: grid;
-  padding: 0px 24px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 0px 24px 24px 0px;
 }
 
 .highlight_cards {
@@ -209,10 +231,8 @@ ul {
 }
 
 .wrapper {
-  justify-content: space-around;
   display: flex;
-  gap: 8px;
-  width: 197px;
+  gap: 28px;
   height: 80px;
   align-items: center;
 }
@@ -227,9 +247,10 @@ ul {
 
 .card2_list {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  padding: 0px 0px 0px 25px;
+  justify-content: start;
+  align-items: center;
+  gap: 75px;
+
 }
 
 .card1_item {
@@ -283,6 +304,7 @@ footer {
     justify-content: center;
     width: 350px;
     gap: 30px;
+    padding: 0px 0px 0px 30px;
   }
 
   .searchbar_cont {
@@ -329,10 +351,10 @@ footer {
     grid-template-columns: repeat(1, 1fr);
   }
 
-  .card_one,
+  /* .card_one,
   .card_two {
     grid-column: span 1;
-  }
+  } */
 
   .cardone_wrapper {
     flex-direction: column;
@@ -412,10 +434,6 @@ footer {
     grid-template-columns: repeat(1, 1fr);
   }
 
-  .card_one,
-  .card_two {
-    grid-column: span 1;
-  }
 
   .cardone_wrapper {
     flex-direction: column;
