@@ -26,12 +26,15 @@
     <div class="container">
       <section class="topbar">
         <a href="#" class="logo">
-          <img
-            src="https://res.cloudinary.com/dsrdhlbl7/image/upload/v1750311695/logo_xp5vgk.png"
-            width="auto"
-            height="50"
-          />
-        </a>
+  <img
+    id="weatheroLogo"
+    src="https://res.cloudinary.com/dsrdhlbl7/image/upload/v1750311695/logo_xp5vgk.png"
+    width="auto"
+    height="50"
+    alt="Weathero Logo"
+  />
+</a>
+
         <div class="searchbar_cont">
           <input
             type="text"
@@ -41,6 +44,10 @@
             onkeydown="searchCity(event)"
           />
         </div>
+        <button id="toggleTheme" title="Toggle Light/Dark Mode">
+  <i id="themeIcon" class="fa-solid fa-moon"></i>
+</button>
+
       </section>
 
       <main>

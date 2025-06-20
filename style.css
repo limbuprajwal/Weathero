@@ -9,6 +9,7 @@
   --surface_text: #7b7980;
   --hightlight_surface: hsla(0, 0%, 0%, 0.1);
   --white: hsl(0, 0%, 100%);
+   --input-bg: #1d1c1f;
 }
 * {
   margin: 0px;
@@ -27,6 +28,39 @@ body {
   font-size: 0.8rem;
   font-family: var(--secondary_font-family);
 }
+
+body.light {
+  --bg: #f1f3f5;
+  --surface: #ffffff;
+  --title: #212529;
+  --surface_text: #495057;
+  --hightlight_surface: rgba(0, 0, 0, 0.06);
+  --white: #000000;
+  --input-bg: #e2e6ea; /* NEW: light, soft input bg */
+  background-color: var(--bg);
+  color: var(--title);
+}
+
+
+
+
+#toggleTheme {
+  background: transparent;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: var(--title);
+  padding: 0 1em;
+}
+
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container, .topbar, input, .card_highlights, .weather_now {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 
 .container {
   width: 100%;
@@ -70,13 +104,15 @@ body {
   outline: none;
   border: none;
   padding: 1.5em;
-  background: #1d1c1f;
-  color: var(--title) font-familyvar(--primary_font-family);
+  background: var(--input-bg);
+  color: var(--title);
+  font-family: var(--primary_font-family);
   width: 400px;
   height: 40px;
   border-radius: 50px;
-  color: white;
+  /* box-shadow: 0 0 4px rgba(0, 0, 0, 0.1); */
 }
+
 
 .upper_container {
   width: 100%;
@@ -93,7 +129,7 @@ body {
   width: 30%;
   height: 320px;
   align-items: center;
-  color: white;
+  color: var(--title);        /* for prominent titles and headings */
   padding: 30px;
   border-radius: 28px;
   background-color: var(--surface);
@@ -170,7 +206,7 @@ body {
   padding: 36px;
   border-radius: 28px;
   display: grid;
-  color: white;
+  color: var(--title);        /* for prominent titles and headings */
   background-color: var(--surface);
 }
 
@@ -288,11 +324,21 @@ ul {
 
 footer {
   margin-top: auto;
-  color: white;
+  color: var(--title);        /* for prominent titles and headings */
   align-items: center;
   position: fixed;
   bottom: 0;
 }
+
+#weatheroLogo {
+  transition: filter 0.3s ease;
+}
+
+/* Invert the logo when in light mode */
+body.light #weatheroLogo {
+  filter: invert(1) hue-rotate(180deg);
+}
+
 
 @media only screen and (max-width: 768px) {
   .topbar {

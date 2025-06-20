@@ -1,7 +1,7 @@
 let cityInput = document.querySelector("#searchbar");
 
+// Insert fetched weather data into the DOM
 function InsertWeatherData(weather) {
-
   document.querySelector("#weatherStatus").innerHTML = weather.condition;
   document.querySelector("#temperature").innerHTML = Math.round(weather.temp) + "&deg";
   document.querySelector("#date").innerHTML = weather.date;
@@ -18,12 +18,14 @@ function InsertWeatherData(weather) {
   document.querySelector("#weatherIcon").src = `https://openweathermap.org/img/w/${weather.icon}.png`;
 }
 
+// Handle enter key in search bar
 function searchCity(event) {
   if (event.key === "Enter") {
     searchWeather();
   }
 }
 
+// Fetch and render weather data for the city
 async function searchWeather() {
   const city = cityInput.value.trim();
 
@@ -47,6 +49,7 @@ async function searchWeather() {
   cityInput.value = "";
 }
 
+// Call OpenWeather API
 async function fetchData(city_name) {
   try {
     const apiKey = "cae6201b6cd9ee700bf84977a25d1c63";
@@ -82,13 +85,36 @@ async function fetchData(city_name) {
     };
 
     InsertWeatherData(weatherData);
-    localStorage.setItem(city_name, JSON.stringify([weatherData])); // simplified
+    localStorage.setItem(city_name, JSON.stringify(weatherData));
   } catch (error) {
     console.error("Error fetching weather data:", error);
   }
 }
 
-// Load default city on page load
+// Theme toggle logic
+const toggleBtn = document.getElementById("toggleTheme");
+const themeIcon = document.getElementById("themeIcon");
+
+const currentTheme = localStorage.getItem("theme");
+
+if (currentTheme === "light") {
+  document.body.classList.add("light");
+  themeIcon.classList.remove("fa-moon");
+  themeIcon.classList.add("fa-sun");
+}
+
+toggleBtn.addEventListener("click", () => {
+  document.body.classList.toggle("light");
+  const isLight = document.body.classList.contains("light");
+
+  themeIcon.classList.toggle("fa-moon", !isLight);
+  themeIcon.classList.toggle("fa-sun", isLight);
+
+  localStorage.setItem("theme", isLight ? "light" : "dark");
+});
+
+// Default city
 fetchData("Kathmandu");
 
+// Search input listener
 cityInput.addEventListener("keydown", searchCity);
