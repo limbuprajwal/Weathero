@@ -1,4 +1,4 @@
-**# Weathero Web Application
+# Weathero Web Application
 
 **Weathero** is a modern, responsive weather web app built using HTML, CSS, and JavaScript. It fetches live weather data from the OpenWeather API and displays real-time weather highlights in a sleek interface.
 
@@ -24,4 +24,4 @@
 ## Demo
 
 🌐 [Live Demo of Weathero](https://weathero-gamma.vercel.app/)
-**
+
