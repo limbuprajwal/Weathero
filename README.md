@@ -12,8 +12,6 @@
 - **Cloud-Hosted Assets:** Logos and weather icons are delivered via [Cloudinary](https://cloudinary.com/) for fast and reliable performance.
 - **Local Storage Caching:** Recently viewed city data is stored for offline fallback.
 
-> **Note:** The past weather database feature was removed in the latest version to simplify the app and enhance user experience.
-
 ## Tech Stack
 
 - **Frontend:** HTML, CSS (Flexbox & Grid), JavaScript (Vanilla)
