@@ -10,7 +10,6 @@
 - **Light/Dark Mode:** Toggle between light and dark themes with auto-saving and logo inversion.
 - **Favicon Support:** Custom app icon for enhanced browser tab experience.
 - **Cloud-Hosted Assets:** Logos and weather icons are delivered via [Cloudinary](https://cloudinary.com/) for fast and reliable performance.
-- **Local Storage Caching:** Recently viewed city data is stored for offline fallback.
 
 ## Tech Stack
 
